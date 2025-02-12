@@ -1,4 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
+using RedisDistributedCacheDemo.IServices;
+using RedisDistributedCacheDemo.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,9 +14,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = "localhost:6379"; // Update if Redis runs on a different server/port
-    options.InstanceName = "SampleInstance";
+    options.InstanceName = "RedisTesting";
 });
-
+// Add custom Redis service for reusable operations
+builder.Services.AddScoped<IRedisService, RedisService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
